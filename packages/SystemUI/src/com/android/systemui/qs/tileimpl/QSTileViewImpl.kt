@@ -833,7 +833,7 @@ constructor(
         val allowAnimations = animationsEnabled()
         isClickable = state.state != Tile.STATE_UNAVAILABLE
         isLongClickable = state.handlesLongClick
-        hasLongClickEffect = (state.handlesLongClick && state.hasLongClickEffect)
+        hasLongClickEffect = !isA11Style && state.handlesLongClick && state.hasLongClickEffect
         icon.setIcon(state, allowAnimations)
         contentDescription = state.contentDescription
 
