@@ -2719,7 +2719,8 @@ final class InstallPackageHelper {
                 // system apps case like below.
             } else if (dataOwnerPkg != null && !dataOwnerPkg.isSdkLibrary()) {
                 if (!PackageManagerServiceUtils.isDowngradePermitted(installFlags,
-                        dataOwnerPkg.isDebuggable()) && !downgradeAllowed) {
+                        dataOwnerPkg.isDebuggable())) {
+                    // Downgrade is not permitted; a lower version of the app will not be allowed
                     try {
                         PackageManagerServiceUtils.checkDowngrade(dataOwnerPkg, pkgLite);
                     } catch (PackageManagerException e) {
