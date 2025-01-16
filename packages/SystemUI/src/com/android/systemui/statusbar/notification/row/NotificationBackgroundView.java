@@ -28,7 +28,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.util.AttributeSet;
 import android.view.View;
-
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -66,6 +66,7 @@ public class NotificationBackgroundView extends View implements Dumpable {
     private final ColorStateList mLightColoredStatefulColors;
     private final ColorStateList mDarkColoredStatefulColors;
     private final int mNormalColor;
+    private static final String TAG = "NotificationBackgroundView";
 
     public NotificationBackgroundView(Context context, AttributeSet attrs) {
         super(context, attrs);
