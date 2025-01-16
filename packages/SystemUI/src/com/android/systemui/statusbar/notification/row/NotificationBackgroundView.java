@@ -304,17 +304,25 @@ public class NotificationBackgroundView extends View implements Dumpable {
     }
 
     private void updateFocusOverlayRadii(LayerDrawable background) {
-        GradientDrawable overlay =
-                (GradientDrawable) background.findDrawableByLayerId(
-                        R.id.notification_focus_overlay);
-        for (int i = 0; i < mCornerRadii.length; i++) {
-            // in theory subtracting mFocusOverlayStroke/2 should be enough but notification
-            // background is still peeking a bit from below - probably due to antialiasing or
-            // overlay uneven scaling. So let's subtract full mFocusOverlayStroke to make sure the
-            // radius is a bit smaller and covers background corners fully
-            mFocusOverlayCornerRadii[i] = Math.max(0, mCornerRadii[i] - mFocusOverlayStroke);
+        try {
+            // Attempt to find and update the focus overlay
+            Drawable overlayDrawable = background.findDrawableByLayerId(R.id.notification_focus_overlay);
+    
+            if (overlayDrawable instanceof GradientDrawable) {
+                GradientDrawable overlay = (GradientDrawable) overlayDrawable;
+                for (int i = 0; i < mCornerRadii.length; i++) {
+                    // Adjust the corner radii
+                    mFocusOverlayCornerRadii[i] = Math.max(0, mCornerRadii[i] - mFocusOverlayStroke);
+                }
+                overlay.setCornerRadii(mFocusOverlayCornerRadii);
+            } else {
+                // Log a warning if the drawable isn't a GradientDrawable
+                Log.w(TAG, "updateFocusOverlayRadii: No valid GradientDrawable found for focus overlay.");
+            }
+        } catch (Exception e) {
+            // Ignore the error and log it for debugging purposes
+            Log.e(TAG, "updateFocusOverlayRadii: Error while updating focus overlay radii", e);
         }
-        overlay.setCornerRadii(mFocusOverlayCornerRadii);
     }
 
     /** Set the current expand animation size. */
